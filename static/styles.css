@@ -1,0 +1,250 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Space+Grotesk:wght@400;600&display=swap");
+
+:root {
+  --bg: #0b0f1a;
+  --card: #111827;
+  --accent: #34d399;
+  --accent-2: #38bdf8;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --danger: #f97316;
+  --shadow: rgba(15, 23, 42, 0.6);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  color: var(--text);
+  background: radial-gradient(circle at 10% 20%, #172554 0%, transparent 40%),
+    radial-gradient(circle at 90% 10%, #064e3b 0%, transparent 40%), var(--bg);
+  min-height: 100vh;
+}
+
+.ambient {
+  position: fixed;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='120' height='120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%231e293b' stroke-width='0.6'%3E%3Cpath d='M0 30h120M0 60h120M0 90h120M30 0v120M60 0v120M90 0v120'/%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 6vw;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand-mark {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #0f172a;
+  font-weight: 700;
+  padding: 10px 14px;
+  border-radius: 12px;
+  letter-spacing: 1px;
+}
+
+.brand-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.brand-subtitle {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.nav a {
+  color: var(--text);
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: 500;
+}
+
+.nav a:hover {
+  color: var(--accent);
+}
+
+.content {
+  padding: 0 6vw 60px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 3vw, 3rem);
+  margin-bottom: 12px;
+}
+
+.hero p {
+  color: var(--muted);
+}
+
+.hero-card {
+  background: linear-gradient(160deg, rgba(56, 189, 248, 0.12), rgba(52, 211, 153, 0.08));
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px var(--shadow);
+}
+
+.grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.panel {
+  background: rgba(17, 24, 39, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 25px 45px var(--shadow);
+}
+
+.panel h2,
+.panel h1 {
+  margin-top: 0;
+}
+
+.field {
+  margin-bottom: 18px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted);
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: #0f172a;
+  color: var(--text);
+  font-family: inherit;
+}
+
+.inline {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.inline input {
+  flex: 1 1 220px;
+}
+
+button.primary,
+button.ghost,
+.primary {
+  border: none;
+  cursor: pointer;
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-weight: 600;
+  font-family: "IBM Plex Mono", "Segoe UI", sans-serif;
+}
+
+button.primary,
+.primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #0f172a;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button.ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+button.ghost:hover {
+  border-color: var(--accent-2);
+}
+
+.chip {
+  background: rgba(148, 163, 184, 0.12);
+  padding: 8px 12px;
+  border-radius: 999px;
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.result {
+  margin-top: 16px;
+  background: rgba(15, 23, 42, 0.8);
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px dashed rgba(148, 163, 184, 0.3);
+}
+
+.result-title {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.result pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 0.95rem;
+}
+
+.meta {
+  margin-top: 8px;
+  color: var(--muted);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.footer {
+  text-align: center;
+  color: var(--muted);
+  padding: 24px 0 40px;
+}
+
+.guide ol,
+.guide ul {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+  .topbar {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .nav a {
+    margin-left: 0;
+    margin-right: 12px;
+  }
+}

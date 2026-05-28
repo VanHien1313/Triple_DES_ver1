@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% set title = "Hướng dẫn sử dụng" %}
+
+{% block content %}
+<section class="panel guide">
+  <h1>Hướng dẫn sử dụng</h1>
+  <ol>
+    <li>Chọn chế độ CBC (khuyến nghị), CFB (dữ liệu luồng), hoặc ECB (không khuyến nghị).</li>
+    <li>Nhập khóa theo định dạng hex 32/48 ký tự, hoặc nhập passphrase để hệ thống tự dẫn xuất khóa.</li>
+    <li>Nhập IV (16 ký tự hex) cho CBC/CFB. Nếu để trống khi mã hóa, hệ thống sẽ tạo IV tự động.</li>
+    <li>Chọn tab xử lý tập tin hoặc văn bản, sau đó bấm xử lý.</li>
+    <li>Giải mã cần đúng khóa và IV đã dùng khi mã hóa.</li>
+  </ol>
+
+  <h2>Gợi ý bảo mật</h2>
+  <ul>
+    <li>Luôn lưu lại IV dùng khi mã hóa để giải mã chính xác.</li>
+    <li>Không chia sẻ khóa qua kênh không an toàn.</li>
+    <li>Triple DES phù hợp mục đích học tập hoặc hệ thống cũ. Hệ thống mới nên ưu tiên AES.</li>
+  </ul>
+
+  <h2>Định dạng kết quả văn bản</h2>
+  <p>Kết quả mã hóa văn bản được trả về ở dạng Base64 để dễ sao chép.</p>
+</section>
+{% endblock %}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ title or "Triple DES Lab" }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    <script defer src="{{ url_for('static', filename='app.js') }}"></script>
+  </head>
+  <body>
+    <div class="ambient"></div>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark">3DES</span>
+        <div>
+          <div class="brand-title">Triple DES Vault</div>
+          <div class="brand-subtitle">Mã hóa tập tin & văn bản</div>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="{{ url_for('index') }}">Trang chính</a>
+        <a href="{{ url_for('guide') }}">Hướng dẫn</a>
+      </nav>
+    </header>
+    <main class="content">
+      {% block content %}{% endblock %}
+    </main>
+    <footer class="footer">
+      <span>Triple DES Web App • {{ now().year }}</span>
+    </footer>
+  </body>
+</html>

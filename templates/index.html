@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% set title = "Triple DES Web" %}
+
+{% block content %}
+<section class="hero">
+  <div>
+    <h1>Mã hóa an toàn với Triple DES</h1>
+    <p>
+      Hỗ trợ chế độ ECB, CBC, CFB cùng khuyến nghị lựa chọn phù hợp. Bạn có thể
+      mã hóa tập tin hoặc văn bản với khóa tự tạo và IV ngẫu nhiên.
+    </p>
+  </div>
+  <div class="hero-card">
+    <div class="hero-title">Khuyến nghị nhanh</div>
+    <ul>
+      <li><strong>CBC:</strong> Phù hợp đa số trường hợp, cần IV.</li>
+      <li><strong>CFB:</strong> Hữu ích cho dữ liệu luồng, cần IV.</li>
+      <li><strong>ECB:</strong> Không khuyến nghị với dữ liệu có mẫu lặp.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="grid">
+  <div class="panel">
+    <h2>Thiết lập khóa & chế độ</h2>
+    <div class="field">
+      <label for="mode">Chế độ mã hóa</label>
+      <select id="mode" name="mode">
+        <option value="CBC" selected>CBC (khuyến nghị)</option>
+        <option value="CFB">CFB (dữ liệu luồng)</option>
+        <option value="ECB">ECB (không khuyến nghị)</option>
+      </select>
+      <p class="hint" id="modeHint"></p>
+    </div>
+
+    <div class="field">
+      <label for="key">Khóa (hex 32/48 ký tự hoặc passphrase)</label>
+      <div class="inline">
+        <input id="key" name="key" type="text" placeholder="Nhập khóa hoặc passphrase" />
+        <button class="ghost" id="generateKey" type="button">Tạo khóa ngẫu nhiên</button>
+      </div>
+      <p class="hint">Nếu không phải hex, khóa sẽ được dẫn xuất bằng SHA-256.</p>
+    </div>
+
+    <div class="field" id="ivField">
+      <label for="iv">IV (hex 16 ký tự)</label>
+      <div class="inline">
+        <input id="iv" name="iv" type="text" placeholder="Nhập IV hoặc để trống để tự tạo" />
+        <button class="ghost" id="generateIv" type="button">Tạo IV</button>
+      </div>
+      <p class="hint">IV chỉ áp dụng cho CBC/CFB. Khi mã hóa, để trống sẽ tự tạo.</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Mã hóa / Giải mã tập tin</h2>
+    <form id="fileForm" class="stack" enctype="multipart/form-data">
+      <div class="field">
+        <label for="fileInput">Chọn tập tin</label>
+        <input id="fileInput" name="file" type="file" />
+      </div>
+      <div class="field">
+        <label>Thao tác</label>
+        <div class="inline">
+          <label class="chip"><input type="radio" name="operation" value="encrypt" checked /> Mã hóa</label>
+          <label class="chip"><input type="radio" name="operation" value="decrypt" /> Giải mã</label>
+        </div>
+      </div>
+      <button type="submit" class="primary">Xử lý tập tin</button>
+    </form>
+    <div class="result" id="fileResult">
+      <div class="result-title">Kết quả</div>
+      <p id="fileMessage">Chưa có dữ liệu.</p>
+      <a id="downloadLink" class="primary" href="#" download hidden>Tải về</a>
+      <div class="meta">
+        <span id="fileIv"></span>
+        <span id="fileDuration"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Mã hóa / Giải mã văn bản</h2>
+    <form id="textForm" class="stack">
+      <div class="field">
+        <label for="textInput">Văn bản</label>
+        <textarea id="textInput" name="text" rows="6" placeholder="Nhập nội dung cần xử lý..."></textarea>
+      </div>
+      <div class="field">
+        <label>Thao tác</label>
+        <div class="inline">
+          <label class="chip"><input type="radio" name="operation" value="encrypt" checked /> Mã hóa</label>
+          <label class="chip"><input type="radio" name="operation" value="decrypt" /> Giải mã</label>
+        </div>
+      </div>
+      <button type="submit" class="primary">Xử lý văn bản</button>
+    </form>
+    <div class="result" id="textResult">
+      <div class="result-title">Kết quả</div>
+      <pre id="textOutput">Chưa có dữ liệu.</pre>
+      <div class="meta">
+        <span id="textIv"></span>
+        <span id="textDuration"></span>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
