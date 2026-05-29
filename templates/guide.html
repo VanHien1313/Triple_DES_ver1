@@ -19,6 +19,13 @@
     <li>Triple DES phù hợp mục đích học tập hoặc hệ thống cũ. Hệ thống mới nên ưu tiên AES.</li>
   </ul>
 
+  <h2>Định dạng khóa Triple DES</h2>
+  <ul>
+    <li><strong>32 ký tự hex</strong> tương ứng 16 byte, dùng 2-key Triple DES theo dạng K1, K2, K1.</li>
+    <li><strong>48 ký tự hex</strong> tương ứng 24 byte, dùng 3-key Triple DES theo dạng K1, K2, K3.</li>
+    <li>Nếu nhập passphrase thay vì chuỗi hex, hệ thống dẫn xuất khóa bằng SHA-256 và lấy 24 byte đầu.</li>
+  </ul>
+
   <h2>Định dạng kết quả văn bản</h2>
   <p>Kết quả mã hóa văn bản được trả về ở dạng Base64 để dễ sao chép.</p>
 </section>

@@ -38,8 +38,14 @@
       <div class="inline">
         <input id="key" name="key" type="text" placeholder="Nhập khóa hoặc passphrase" />
         <button class="ghost" id="generateKey" type="button">Tạo khóa ngẫu nhiên</button>
+        <button class="ghost copy-button" id="copyKey" type="button">Sao chép</button>
       </div>
-      <p class="hint">Nếu không phải hex, khóa sẽ được dẫn xuất bằng SHA-256.</p>
+      <ul class="hint-list">
+        <li>32 ký tự hex = 16 byte = 2-key Triple DES, dạng K1, K2, K1.</li>
+        <li>48 ký tự hex = 24 byte = 3-key Triple DES, dạng K1, K2, K3.</li>
+        <li>Passphrase sẽ được dẫn xuất khóa bằng SHA-256.</li>
+      </ul>
+      <p class="hint" id="keyHint"></p>
     </div>
 
     <div class="field" id="ivField">
@@ -47,6 +53,7 @@
       <div class="inline">
         <input id="iv" name="iv" type="text" placeholder="Nhập IV hoặc để trống để tự tạo" />
         <button class="ghost" id="generateIv" type="button">Tạo IV</button>
+        <button class="ghost copy-button" id="copyIv" type="button">Sao chép</button>
       </div>
       <p class="hint">IV chỉ áp dụng cho CBC/CFB. Khi mã hóa, để trống sẽ tự tạo.</p>
     </div>
@@ -96,7 +103,10 @@
       <button type="submit" class="primary">Xử lý văn bản</button>
     </form>
     <div class="result" id="textResult">
-      <div class="result-title">Kết quả</div>
+      <div class="result-heading">
+        <div class="result-title">Kết quả</div>
+        <button class="ghost copy-button" id="copyTextResult" type="button">Sao chép</button>
+      </div>
       <pre id="textOutput">Chưa có dữ liệu.</pre>
       <div class="meta">
         <span id="textIv"></span>

@@ -154,6 +154,11 @@ body {
   flex: 1 1 220px;
 }
 
+.copy-button {
+  flex: 0 0 auto;
+  min-width: 92px;
+}
+
 button.primary,
 button.ghost,
 .primary {
@@ -199,6 +204,18 @@ button.ghost:hover {
   font-size: 0.9rem;
 }
 
+.hint.warning {
+  color: var(--danger);
+}
+
+.hint-list {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin: 10px 0 8px;
+  padding-left: 20px;
+}
+
 .result {
   margin-top: 16px;
   background: rgba(15, 23, 42, 0.8);
@@ -210,6 +227,18 @@ button.ghost:hover {
 .result-title {
   font-weight: 600;
   margin-bottom: 8px;
+}
+
+.result-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.result-heading .result-title {
+  margin-bottom: 0;
 }
 
 .result pre {

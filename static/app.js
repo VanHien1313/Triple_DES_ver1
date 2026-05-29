@@ -2,9 +2,12 @@ const modeSelect = document.getElementById("mode");
 const modeHint = document.getElementById("modeHint");
 const ivField = document.getElementById("ivField");
 const keyInput = document.getElementById("key");
+const keyHint = document.getElementById("keyHint");
 const ivInput = document.getElementById("iv");
 const generateKeyButton = document.getElementById("generateKey");
 const generateIvButton = document.getElementById("generateIv");
+const copyKeyButton = document.getElementById("copyKey");
+const copyIvButton = document.getElementById("copyIv");
 
 const fileForm = document.getElementById("fileForm");
 const fileMessage = document.getElementById("fileMessage");
@@ -16,17 +19,53 @@ const textForm = document.getElementById("textForm");
 const textOutput = document.getElementById("textOutput");
 const textIv = document.getElementById("textIv");
 const textDuration = document.getElementById("textDuration");
+const copyTextResultButton = document.getElementById("copyTextResult");
 
 const modeTips = {
   CBC: "CBC được khuyến nghị cho hầu hết trường hợp, cần IV ngẫu nhiên.",
   CFB: "CFB phù hợp dữ liệu luồng, cũng cần IV.",
-  ECB: "ECB không khuyến nghị vì lộ mẫu dữ liệu.",
+  ECB: "Cảnh báo: ECB không khuyến nghị vì các block giống nhau cho ra kết quả giống nhau, có thể làm lộ mẫu dữ liệu.",
 };
 
 const updateModeUI = () => {
   const mode = modeSelect.value;
   modeHint.textContent = modeTips[mode] || "";
+  modeHint.classList.toggle("warning", mode === "ECB");
   ivField.style.display = mode === "ECB" ? "none" : "block";
+};
+
+const isHex = (value) => /^[0-9a-fA-F]+$/.test(value);
+
+const updateKeyHint = () => {
+  if (!keyHint || !keyInput) {
+    return;
+  }
+
+  const value = keyInput.value.trim();
+  keyHint.classList.remove("warning");
+
+  if (!value) {
+    keyHint.textContent = "Nhập khóa hoặc bấm tạo khóa ngẫu nhiên.";
+    return;
+  }
+
+  if (value.length === 32 && isHex(value)) {
+    keyHint.textContent = "Đang dùng: 2-key Triple DES (K1, K2, K1).";
+    return;
+  }
+
+  if (value.length === 48 && isHex(value)) {
+    keyHint.textContent = "Đang dùng: 3-key Triple DES (K1, K2, K3).";
+    return;
+  }
+
+  if (isHex(value)) {
+    keyHint.textContent = "Khóa hex cần đúng 32 hoặc 48 ký tự.";
+    keyHint.classList.add("warning");
+    return;
+  }
+
+  keyHint.textContent = "Đang dùng: passphrase, hệ thống dẫn xuất khóa bằng SHA-256.";
 };
 
 const randomHex = (length) => {
@@ -37,9 +76,49 @@ const randomHex = (length) => {
     .join("");
 };
 
+const fallbackCopy = (text) => {
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.setAttribute("readonly", "");
+  textarea.style.position = "fixed";
+  textarea.style.opacity = "0";
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand("copy");
+  document.body.removeChild(textarea);
+};
+
+const copyText = async (text, button) => {
+  const value = text.trim();
+  if (!value || !button) {
+    return;
+  }
+
+  const originalText = button.textContent;
+  try {
+    if (navigator.clipboard) {
+      await navigator.clipboard.writeText(value);
+    } else {
+      fallbackCopy(value);
+    }
+    button.textContent = "Đã chép";
+  } catch (error) {
+    fallbackCopy(value);
+    button.textContent = "Đã chép";
+  }
+  window.setTimeout(() => {
+    button.textContent = originalText;
+  }, 1200);
+};
+
 if (modeSelect) {
   updateModeUI();
   modeSelect.addEventListener("change", updateModeUI);
+}
+
+if (keyInput) {
+  updateKeyHint();
+  keyInput.addEventListener("input", updateKeyHint);
 }
 
 if (generateKeyButton) {
@@ -50,12 +129,31 @@ if (generateKeyButton) {
     }
     const data = await response.json();
     keyInput.value = data.key_hex;
+    updateKeyHint();
   });
 }
 
 if (generateIvButton) {
   generateIvButton.addEventListener("click", () => {
     ivInput.value = randomHex(16);
+  });
+}
+
+if (copyKeyButton) {
+  copyKeyButton.addEventListener("click", () => {
+    copyText(keyInput.value, copyKeyButton);
+  });
+}
+
+if (copyIvButton) {
+  copyIvButton.addEventListener("click", () => {
+    copyText(ivInput.value, copyIvButton);
+  });
+}
+
+if (copyTextResultButton) {
+  copyTextResultButton.addEventListener("click", () => {
+    copyText(textOutput.textContent, copyTextResultButton);
   });
 }
 

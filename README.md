@@ -27,6 +27,7 @@ Lưu ý: phần DES/Triple DES trong project được tự implement trong thư 
 - Hỗ trợ passphrase; backend sẽ dẫn xuất khóa bằng SHA-256 và lấy 24 byte đầu.
 - Tự sinh khóa Triple DES 24 byte.
 - Tự sinh IV 8 byte cho CBC/CFB khi mã hóa nếu người dùng để trống.
+- Hiển thị hint định dạng khóa 2-key/3-key/passphrase và hỗ trợ sao chép khóa, IV, kết quả text.
 - Hiển thị IV đã dùng và thời gian xử lý.
 - Ghi log thao tác vào `logs/operations.log`.
 - Giới hạn upload file mặc định 16MB cho môi trường demo/lab.
