@@ -1,5 +1,6 @@
 import base64
 import re
+from io import BytesIO
 
 import pytest
 
@@ -58,3 +59,26 @@ def test_process_text_cbc_encrypt_then_decrypt_returns_plaintext(client):
 
     assert decrypt_response.status_code == 200
     assert decrypt_response.get_json()["result"] == plaintext
+
+
+def test_process_file_too_large_returns_json_error(client):
+    original_limit = app_module.app.config["MAX_CONTENT_LENGTH"]
+    app_module.app.config["MAX_CONTENT_LENGTH"] = 128
+    try:
+        response = client.post(
+            "/process-file",
+            data={
+                "operation": "encrypt",
+                "mode": "CBC",
+                "key": KEY_HEX,
+                "iv": IV_HEX,
+                "file": (BytesIO(b"x" * 1024), "large.txt"),
+            },
+            content_type="multipart/form-data",
+        )
+    finally:
+        app_module.app.config["MAX_CONTENT_LENGTH"] = original_limit
+
+    assert response.status_code == 413
+    assert response.is_json
+    assert "vượt quá giới hạn" in response.get_json()["error"]

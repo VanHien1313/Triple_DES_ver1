@@ -6,12 +6,22 @@ import os
 from datetime import datetime
 
 from flask import Flask, jsonify, render_template, request, send_file
+from werkzeug.exceptions import RequestEntityTooLarge
 
 from crypto.modes import crypt_bytes
 from utils.logger import log_event
 from utils.validators import ValidationError, prepare_iv, prepare_key
 
 app = Flask(__name__)
+MAX_UPLOAD_SIZE = 16 * 1024 * 1024
+app.config["MAX_CONTENT_LENGTH"] = MAX_UPLOAD_SIZE
+
+
+def _env_flag(name: str, default: bool = False) -> bool:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    return value.strip().lower() in ("1", "true", "yes", "on")
 
 
 def _generate_key_hex() -> str:
@@ -21,6 +31,12 @@ def _generate_key_hex() -> str:
 @app.context_processor
 def inject_now() -> dict:
     return {"now": datetime.now}
+
+
+@app.errorhandler(RequestEntityTooLarge)
+def handle_request_entity_too_large(exc: RequestEntityTooLarge) -> tuple:
+    limit_mb = app.config["MAX_CONTENT_LENGTH"] // (1024 * 1024)
+    return jsonify({"error": f"Tập tin vượt quá giới hạn {limit_mb}MB."}), 413
 
 
 @app.route("/")
@@ -132,4 +148,4 @@ def process_file() -> "flask.Response":
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=_env_flag("FLASK_DEBUG"))
